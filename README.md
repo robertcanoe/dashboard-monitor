@@ -4,20 +4,20 @@ Sistema completo de monitorización de sensores en tiempo real con **backend en 
 
 ---
 
-## 📋 Descripción General
+## Descripción General
 
 Este proyecto es un **dashboard corporativo** para la monitorización de sensores IoT que permite:
 
-- ✅ Visualizar sensores activos en el sistema
-- ✅ Consultar lecturas en tiempo real
-- ✅ Ver estadísticas (promedio, máximo, mínimo)
-- ✅ Filtrar lecturas por rango de fechas
-- ✅ Exportar datos a CSV
-- ✅ Auto-actualización automática cada 15 segundos
+- Visualizar sensores activos en el sistema
+- Consultar lecturas en tiempo real
+- Ver estadísticas (promedio, máximo, mínimo)
+- Filtrar lecturas por rango de fechas
+- Exportar datos a CSV
+- Auto-actualización automática cada 15 segundos
 
 ---
 
-## 🏗️ Arquitectura del Proyecto
+## Arquitectura del Proyecto
 
 ```
 dashboard-project/
@@ -38,7 +38,7 @@ dashboard-project/
 
 ---
 
-## 🚀 Inicio Rápido
+## Inicio Rápido
 
 ### Prerrequisitos
 
@@ -46,14 +46,14 @@ dashboard-project/
 - **Node.js** (v18+) - [Descargar](https://nodejs.org/)
 - **PNPM** - `npm install -g pnpm`
 
-### 1️⃣ Clonar el Repositorio
+### 1. Clonar el Repositorio
 
 ```bash
 git clone https://github.com/robertcanoe/dashboard-project.git
 cd dashboard-project
 ```
 
-### 2️⃣ Ejecutar el Backend
+### 2. Ejecutar el Backend
 
 ```bash
 # Navegar al backend
@@ -69,7 +69,7 @@ dotnet run
 El backend estará disponible en: **http://localhost:5024**  
 Swagger UI: **http://localhost:5024/swagger**
 
-### 3️⃣ Ejecutar el Frontend
+### 3. Ejecutar el Frontend
 
 En una **nueva terminal**:
 
@@ -88,7 +88,7 @@ El frontend estará disponible en: **http://localhost:4200**
 
 ---
 
-## 🎯 Tecnologías Utilizadas
+## Tecnologías Utilizadas
 
 ### Backend
 - **.NET 8** - Framework principal
@@ -105,7 +105,7 @@ El frontend estará disponible en: **http://localhost:4200**
 
 ---
 
-## 📊 Funcionalidades Principales
+## Funcionalidades Principales
 
 ### Backend (API REST)
 
@@ -126,7 +126,7 @@ El frontend estará disponible en: **http://localhost:4200**
 
 ---
 
-## 🎨 Diseño Corporativo
+## Diseño Corporativo
 
 El frontend utiliza un **diseño corporativo profesional** inspirado en empresas tecnológicas como Indra:
 
@@ -138,7 +138,7 @@ El frontend utiliza un **diseño corporativo profesional** inspirado en empresas
 
 ---
 
-## 📝 Modelos de Datos
+## Modelos de Datos
 
 ### Sensor
 ```json
@@ -162,7 +162,7 @@ El frontend utiliza un **diseño corporativo profesional** inspirado en empresas
 
 ---
 
-## 🔧 Configuración
+## Configuración
 
 ### Puertos por Defecto
 
@@ -192,7 +192,7 @@ builder.Services.AddCors(options =>
 
 ---
 
-## 📚 Documentación Detallada
+## Documentación Detallada
 
 Para más información sobre cada parte del proyecto:
 
@@ -202,7 +202,7 @@ Para más información sobre cada parte del proyecto:
 
 ---
 
-## 🐛 Solución de Problemas
+## Solución de Problemas
 
 ### El backend no inicia
 ```bash
@@ -225,7 +225,7 @@ kill -9 PID
 
 ---
 
-## 🚀 Despliegue
+## Despliegue
 
 ### Backend (Producción)
 
@@ -241,25 +241,8 @@ cd frontend/dashboard-monitor
 pnpm build
 # Los archivos estarán en dist/
 ```
-
 ---
 
-## 🤝 Contribución
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
----
-
-## 📄 Licencia
-
-Este proyecto es de código abierto y está disponible bajo la licencia MIT.
-
----
-
-## 👥 Autores
+## Autores
 
 - **Roberto Cano Estévez** - Desarrollo inicial
