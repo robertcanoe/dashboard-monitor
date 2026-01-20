@@ -1,0 +1,115 @@
+<div class="sensor-detail" *ngIf="sensor">
+  <div class="detail-header">
+    <h2>{{ sensor.name }}</h2>
+    <div class="header-actions">
+      <button 
+        (click)="exportarCSV()" 
+        class="export-btn"
+        title="Exportar datos a CSV"
+      >
+        📥 Exportar CSV
+      </button>
+      <button 
+        (click)="toggleAutoRefresh()" 
+        [class.active]="autoRefresh"
+        class="refresh-btn"
+        [title]="autoRefresh ? 'Actualización automática activa' : 'Actualización automática inactiva'"
+      >
+        🔄
+      </button>
+    </div>
+  </div>
+
+  <div class="sensor-metadata">
+    <div class="metadata-item">
+      <label>Tipo:</label>
+      <span class="badge">{{ sensor.type }}</span>
+    </div>
+    <div class="metadata-item">
+      <label>Ubicación:</label>
+      <span>📍 {{ sensor.location }}</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    <p>⚠️ {{ error }}</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h3>Última lectura</h3>
+      <p class="stat-value" *ngIf="getLatestReading(); else noData">
+        {{ getLatestReading()!.value }}
+      </p>
+      <p class="stat-time" *ngIf="getLatestReading()">
+        {{ formatDate(getLatestReading()!.timestamp) }}
+      </p>
+      <ng-template #noData>
+        <p class="stat-value">—</p>
+      </ng-template>
+    </div>
+
+    <div class="stat-card">
+      <h3>Promedio</h3>
+      <p class="stat-value">{{ getAverageValue() }}</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>Máximo</h3>
+      <p class="stat-value">{{ getMaxValue() }}</p>
+    </div>
+
+    <div class="stat-card">
+      <h3>Mínimo</h3>
+      <p class="stat-value">{{ getMinValue() }}</p>
+    </div>
+  </div>
+
+  <div class="filter-section">
+    <h3>📅 Filtrar lecturas</h3>
+    <div class="filter-controls">
+      <div class="filter-group">
+        <label>Desde:</label>
+        <input type="datetime-local" [(ngModel)]="filterFromDate" />
+      </div>
+      <div class="filter-group">
+        <label>Hasta:</label>
+        <input type="datetime-local" [(ngModel)]="filterToDate" />
+      </div>
+      <button (click)="applyFilter()" class="btn btn-primary">Aplicar</button>
+      <button (click)="clearFilter()" class="btn btn-secondary">Limpiar</button>
+    </div>
+  </div>
+
+  <div class="readings-section">
+    <h3>📊 Últimas Lecturas</h3>
+    
+    <div *ngIf="loading" class="loading">
+      <p>Cargando lecturas...</p>
+    </div>
+
+    <div *ngIf="!loading && readings.length === 0" class="no-readings">
+      <p>No hay lecturas disponibles</p>
+    </div>
+
+    <div *ngIf="!loading && readings.length > 0" class="readings-list">
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha y Hora</th>
+            <th>Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let reading of filteredReadings">
+            <td>{{ formatDate(reading.timestamp) }}</td>
+            <td class="value">{{ reading.value }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="reading-count" *ngIf="readings.length > 20">
+        Mostrando 20 de {{ readings.length }} lecturas
+      </p>
+    </div>
+  </div>
+</div>
