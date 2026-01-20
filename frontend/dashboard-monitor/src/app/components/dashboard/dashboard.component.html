@@ -1,0 +1,27 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h1>Sistema de Monitorización de Sensores</h1>
+    <div class="subtitle">Dashboard de Análisis en Tiempo Real</div>
+  </div>
+  
+  <div class="dashboard-layout">
+    <div class="sensor-list-panel">
+      <app-sensor-list></app-sensor-list>
+    </div>
+    <div class="sensor-detail-panel">
+      <app-sensor-detail *ngIf="selectedSensor; else noSelection" [sensor]="selectedSensor"></app-sensor-detail>
+      <ng-template #noSelection>
+        <div class="no-selection">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+          </svg>
+          <p>Seleccione un sensor para visualizar sus datos</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
