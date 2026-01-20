@@ -1,0 +1,96 @@
+# ================================
+# GLOBAL .gitignore
+# ================================
+
+# ============ .NET / Backend ============
+# Binarios y compilados
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio cache/options
+.vs/
+
+# Rider
+.idea/
+*.sln.iml
+
+# NuGet Packages
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+
+# ============ Angular / Frontend ============
+# Dependencias
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build output
+dist/
+tmp/
+out-tsc/
+.angular/
+
+# Angular cache
+.angular/cache
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.production
+
+# Coverage
+coverage/
+*.lcov
+.nyc_output/
+
+# ============ General ============
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# README
+
+README-enunciado.md
