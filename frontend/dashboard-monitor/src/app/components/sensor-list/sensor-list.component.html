@@ -1,0 +1,44 @@
+<div class="sensor-list">
+  <h2>Sensores Activos ({{ sensors.length }})</h2>
+
+  @if (loading) {
+    <div class="loading">
+      <p>Cargando información de sensores...</p>
+    </div>
+  }
+
+  @if (error) {
+    <div class="error-message">
+      <p>{{ error }}</p>
+      <button (click)="loadSensors()" class="retry-btn">Reintentar Conexión</button>
+    </div>
+  }
+
+  @if (!loading && sensors.length === 0) {
+    <div class="no-sensors">
+      <p>No se encontraron sensores activos.</p>
+      <p>Por favor, verifique la conexión o agregue nuevos sensores.</p>
+    </div>
+  }
+
+  @if (!loading && sensors.length > 0) {
+    <ul class="sensors">
+      @for (sensor of sensors; track sensor.id) {
+        <li
+          [class.active]="selectedSensorId === sensor.id"
+          (click)="selectSensor(sensor)"
+          class="sensor-item"
+        >
+          <div class="sensor-header">
+            <div class="sensor-icon">{{ getIconBySensorType(sensor.type) }}</div>
+            <div class="sensor-info">
+              <h3>{{ sensor.name }}</h3>
+              <p class="sensor-type">{{ sensor.type }}</p>
+            </div>
+          </div>
+          <p class="sensor-location">{{ sensor.location }}</p>
+        </li>
+      }
+    </ul>
+  }
+</div>
