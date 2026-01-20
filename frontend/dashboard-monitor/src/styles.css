@@ -1,0 +1,34 @@
+/* Reset y estilos globales */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', 'Arial', sans-serif;
+  background: #f5f7fa;
+  color: #2c3e50;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+:root {
+  --primary-blue: #003d82;
+  --secondary-blue: #0056b3;
+  --accent-blue: #1e88e5;
+  --light-gray: #f5f7fa;
+  --medium-gray: #e0e6ed;
+  --dark-gray: #5a6c7d;
+  --text-dark: #2c3e50;
+  --border-color: #dce4ec;
+  --success: #28a745;
+  --warning: #ffc107;
+  --danger: #dc3545;
+}
+
