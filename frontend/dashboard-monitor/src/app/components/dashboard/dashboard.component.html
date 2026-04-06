@@ -1,27 +1,45 @@
-<div class="dashboard-container">
-  <div class="dashboard-header">
-    <h1>Sistema de Monitorización de Sensores</h1>
-    <div class="subtitle">Dashboard de Análisis en Tiempo Real</div>
-  </div>
-  
-  <div class="dashboard-layout">
-    <div class="sensor-list-panel">
-      <app-sensor-list></app-sensor-list>
+<section class="dashboard-container">
+  <header class="dashboard-header">
+    <div class="brand-block">
+      <p class="kicker">CENTRO DE CONTROL</p>
+      <h1>Monitor Inteligente de Sensores</h1>
+      <p class="subtitle">Operaciones en tiempo real para telemetria ambiental</p>
     </div>
-    <div class="sensor-detail-panel">
-      <app-sensor-detail *ngIf="selectedSensor; else noSelection" [sensor]="selectedSensor"></app-sensor-detail>
-      <ng-template #noSelection>
-        <div class="no-selection">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-            <rect x="3" y="3" width="7" height="7" rx="1"/>
-            <rect x="14" y="3" width="7" height="7" rx="1"/>
-            <rect x="14" y="14" width="7" height="7" rx="1"/>
-            <rect x="3" y="14" width="7" height="7" rx="1"/>
-          </svg>
-          <p>Seleccione un sensor para visualizar sus datos</p>
+
+    <div class="status-block">
+      <p class="date-label">{{ todayLabel }}</p>
+
+      @if (selectedSensor(); as sensor) {
+        <div class="selection-chip live">
+          <span class="dot"></span>
+          <strong>{{ sensor.name }}</strong>
+          <small>{{ sensor.location }}</small>
         </div>
-      </ng-template>
+      } @else {
+        <div class="selection-chip idle">
+          <span class="dot"></span>
+          <strong>Sin sensor activo</strong>
+          <small>Selecciona uno en el panel izquierdo</small>
+        </div>
+      }
     </div>
+  </header>
+
+  <div class="dashboard-layout">
+    <aside class="sensor-list-panel">
+      <app-sensor-list></app-sensor-list>
+    </aside>
+
+    <section class="sensor-detail-panel">
+      @if (selectedSensor(); as sensor) {
+        <app-sensor-detail [sensor]="sensor"></app-sensor-detail>
+      } @else {
+        <article class="no-selection">
+          <h2>Vista analitica lista</h2>
+          <p>Selecciona un sensor para desbloquear metricas, historico y exportacion de datos.</p>
+        </article>
+      }
+    </section>
   </div>
-</div>
+</section>
 
