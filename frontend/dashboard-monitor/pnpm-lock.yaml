@@ -23,9 +23,18 @@ importers:
       '@angular/platform-browser':
         specifier: ^21.1.0
         version: 21.1.0(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))
+      '@angular/platform-browser-dynamic':
+        specifier: ^21.1.0
+        version: 21.2.7(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/compiler@21.1.0)(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(@angular/platform-browser@21.1.0(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)))
       '@angular/router':
         specifier: ^21.1.0
         version: 21.1.0(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(@angular/platform-browser@21.1.0(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)))(rxjs@7.8.2)
+      chart.js:
+        specifier: ^4.4.1
+        version: 4.5.1
+      ng2-charts:
+        specifier: ^4.1.1
+        version: 4.1.1(@angular/cdk@21.2.5(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(@angular/platform-browser@21.1.0(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)))(rxjs@7.8.2))(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(chart.js@4.5.1)(rxjs@7.8.2)
       rxjs:
         specifier: ~7.8.0
         version: 7.8.2
@@ -181,6 +190,14 @@ packages:
       vitest:
         optional: true
 
+  '@angular/cdk@21.2.5':
+    resolution: {integrity: sha512-F1sVqMAGYoiJNYYaR2cerqTo7IqpxQ3ZtMDxR3rtB0rSSd5UPOIQoqpsfSd6uH8FVnuzKaBII8Mg6YrjClFsng==}
+    peerDependencies:
+      '@angular/common': ^21.0.0 || ^22.0.0
+      '@angular/core': ^21.0.0 || ^22.0.0
+      '@angular/platform-browser': ^21.0.0 || ^22.0.0
+      rxjs: ^6.5.3 || ^7.4.0
+
   '@angular/cli@21.1.0':
     resolution: {integrity: sha512-kzk8du388x6EBybJeq5AB27qGm8oGC9HhvBJDbu8o+aBIOY+JwVON9m4SYLCzeT+EVK8sKA1NMVYi2CDerk6hA==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0, npm: ^6.11.0 || ^7.5.6 || >=8.0.0, yarn: '>= 1.13.0'}
@@ -229,6 +246,15 @@ packages:
       '@angular/core': 21.1.0
       '@angular/platform-browser': 21.1.0
       rxjs: ^6.5.3 || ^7.4.0
+
+  '@angular/platform-browser-dynamic@21.2.7':
+    resolution: {integrity: sha512-P7s9ABgJqRyUS5HNRJFRr15xaXbWfSH9KjSxkBYYJbXIA986uGb6qjnHepu+2xMyZDlt2nd9Ms+t4M60/GM+FQ==}
+    engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
+    peerDependencies:
+      '@angular/common': 21.2.7
+      '@angular/compiler': 21.2.7
+      '@angular/core': 21.2.7
+      '@angular/platform-browser': 21.2.7
 
   '@angular/platform-browser@21.1.0':
     resolution: {integrity: sha512-Drkal25x+OuRQosAE/cL4uM5WDmgFehanCpsjQ1jGp6Rxoad6Q5Do1uQAE3qgMKHL1aqCPZ+uWzcVVG+Bn1ddg==}
@@ -711,6 +737,9 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
+
+  '@kurkle/color@0.3.4':
+    resolution: {integrity: sha512-M5UknZPHRu3DEDWoipU6sE8PdkZ6Z/S+v4dD+Ke8IaNlpdSQah50lz1KtcFBa2vsdOnwbbnxJwVM4wty6udA5w==}
 
   '@listr2/prompt-adapter-inquirer@3.0.5':
     resolution: {integrity: sha512-WELs+hj6xcilkloBXYf9XXK8tYEnKsgLj01Xl5ONUJpKjmT5hGVUzNUS5tooUxs7pGMrw+jFD/41WpqW4V3LDA==}
@@ -1426,6 +1455,10 @@ packages:
   chardet@2.1.1:
     resolution: {integrity: sha512-PsezH1rqdV9VvyNhxxOW32/d75r01NY7TQCmOqomRo15ZSOKbpTFVsfjghxo6JloQUCGnH4k1LGu0R4yCLlWQQ==}
 
+  chart.js@4.5.1:
+    resolution: {integrity: sha512-GIjfiT9dbmHRiYi6Nl2yFCq7kkwdkp1W/lp2J99rX0yo9tgJGn3lKQATztIjb5tVtevcBtIdICNWqlq5+E8/Pw==}
+    engines: {pnpm: '>=8'}
+
   chokidar@4.0.3:
     resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
     engines: {node: '>= 14.16.0'}
@@ -1898,6 +1931,9 @@ packages:
     resolution: {integrity: sha512-+Y2DqovevLkb6DrSQ6SXTYLEd6kvlRbhsxzgJrk7BUfOVA/mt21ak6pFDZDKxiAczHMWxrb02kXBTSTIA0O94A==}
     hasBin: true
 
+  lodash-es@4.18.1:
+    resolution: {integrity: sha512-J8xewKD/Gk22OZbhpOVSwcs60zhd95ESDwezOFuA3/099925PdHJ7OFHNTGtajL3AlZkykD32HykiMo+BIBI8A==}
+
   log-symbols@7.0.1:
     resolution: {integrity: sha512-ja1E3yCr9i/0hmBVaM0bfwDjnGy8I/s6PP4DFp+yP+a+mrHO4Rm7DtmnqROTUkHIkqffC84YY7AeqX6oFk0WFg==}
     engines: {node: '>=18'}
@@ -2009,6 +2045,15 @@ packages:
   negotiator@1.0.0:
     resolution: {integrity: sha512-8Ofs/AUQh8MaEcrlq5xOX0CQ9ypTF5dl78mjlMNfOK08fzpgTHQRQPBxcPlEtIw0yRpws+Zo/3r+5WRby7u3Gg==}
     engines: {node: '>= 0.6'}
+
+  ng2-charts@4.1.1:
+    resolution: {integrity: sha512-iHwXDbmX86lfeH8VRcsaW2tJATsuAZo4kvvC/Yk2l35zOHjevja1qBvO6BAibiDazi9r9aS6ZRJOqWPsz1pP2w==}
+    peerDependencies:
+      '@angular/cdk': '>=14.0.0'
+      '@angular/common': '>=14.0.0'
+      '@angular/core': '>=14.0.0'
+      chart.js: ^3.4.0 || ^4.0.0
+      rxjs: ^6.5.3 || ^7.4.0
 
   node-addon-api@6.1.0:
     resolution: {integrity: sha512-+eawOlIgy680F0kBzPUNFhMZGtJ1YmqM6l4+Crf4IkImjYrO/mqPwRMh352g23uIaQKFItcQ64I7KMaJxHgAVA==}
@@ -2388,6 +2433,7 @@ packages:
   tar@7.5.4:
     resolution: {integrity: sha512-AN04xbWGrSTDmVwlI4/GTlIIwMFk/XEv7uL8aa57zuvRy6s4hdBed+lVq2fAZ89XDa7Us3ANXcE3Tvqvja1kTA==}
     engines: {node: '>=18'}
+    deprecated: Old versions of tar are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
 
   tinybench@2.9.0:
     resolution: {integrity: sha512-0+DUvqWMValLmha6lr4kD8iAMK1HzV0/aKnCtWb9v9641TnP/MFb7Pc2bxoxQjTXAErryXVgUOfv2YqNllqGeg==}
@@ -2869,6 +2915,15 @@ snapshots:
       - tsx
       - yaml
 
+  '@angular/cdk@21.2.5(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(@angular/platform-browser@21.1.0(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)))(rxjs@7.8.2)':
+    dependencies:
+      '@angular/common': 21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2)
+      '@angular/core': 21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)
+      '@angular/platform-browser': 21.1.0(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))
+      parse5: 8.0.0
+      rxjs: 7.8.2
+      tslib: 2.8.1
+
   '@angular/cli@21.1.0(chokidar@5.0.0)(hono@4.11.4)':
     dependencies:
       '@angular-devkit/architect': 0.2101.0(chokidar@5.0.0)
@@ -2937,6 +2992,14 @@ snapshots:
       '@angular/platform-browser': 21.1.0(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))
       '@standard-schema/spec': 1.1.0
       rxjs: 7.8.2
+      tslib: 2.8.1
+
+  '@angular/platform-browser-dynamic@21.2.7(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/compiler@21.1.0)(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(@angular/platform-browser@21.1.0(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)))':
+    dependencies:
+      '@angular/common': 21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2)
+      '@angular/compiler': 21.1.0
+      '@angular/core': 21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)
+      '@angular/platform-browser': 21.1.0(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))
       tslib: 2.8.1
 
   '@angular/platform-browser@21.1.0(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))':
@@ -3328,6 +3391,8 @@ snapshots:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
+
+  '@kurkle/color@0.3.4': {}
 
   '@listr2/prompt-adapter-inquirer@3.0.5(@inquirer/prompts@7.10.1)(listr2@9.0.5)':
     dependencies:
@@ -3955,6 +4020,10 @@ snapshots:
 
   chardet@2.1.1: {}
 
+  chart.js@4.5.1:
+    dependencies:
+      '@kurkle/color': 0.3.4
+
   chokidar@4.0.3:
     dependencies:
       readdirp: 4.1.2
@@ -4456,6 +4525,8 @@ snapshots:
       '@lmdb/lmdb-win32-x64': 3.4.4
     optional: true
 
+  lodash-es@4.18.1: {}
+
   log-symbols@7.0.1:
     dependencies:
       is-unicode-supported: 2.1.0
@@ -4575,6 +4646,16 @@ snapshots:
   nanoid@3.3.11: {}
 
   negotiator@1.0.0: {}
+
+  ng2-charts@4.1.1(@angular/cdk@21.2.5(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(@angular/platform-browser@21.1.0(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)))(rxjs@7.8.2))(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(chart.js@4.5.1)(rxjs@7.8.2):
+    dependencies:
+      '@angular/cdk': 21.2.5(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(@angular/platform-browser@21.1.0(@angular/common@21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)))(rxjs@7.8.2)
+      '@angular/common': 21.1.0(@angular/core@21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2))(rxjs@7.8.2)
+      '@angular/core': 21.1.0(@angular/compiler@21.1.0)(rxjs@7.8.2)
+      chart.js: 4.5.1
+      lodash-es: 4.18.1
+      rxjs: 7.8.2
+      tslib: 2.8.1
 
   node-addon-api@6.1.0:
     optional: true
