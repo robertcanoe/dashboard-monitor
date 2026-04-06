@@ -1,125 +1,171 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { Sensor } from '../../models/sensor';
 import { Reading } from '../../models/reading';
 import { SensorService } from '../../services/sensor.service';
-import { Subject } from 'rxjs';
-import { takeUntil, switchMap, startWith } from 'rxjs/operators';
+import { Subscription, timer } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sensor-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [],
   templateUrl: './sensor-detail.component.html',
   styleUrl: './sensor-detail.component.css'
 })
-export class SensorDetailComponent implements OnInit, OnDestroy {
-  @Input() sensor!: Sensor;
+export class SensorDetailComponent {
+  private readonly sensorService = inject(SensorService);
+  private pollSubscription?: Subscription;
 
-  readings: Reading[] = [];
-  filteredReadings: Reading[] = [];
-  loading = false;
-  autoRefresh = true;
-  error: string | null = null;
+  readonly sensor = input.required<Sensor>();
+  readonly readings = signal<Reading[]>([]);
+  readonly loading = signal(false);
+  readonly error = signal<string | null>(null);
+  readonly autoRefresh = signal(true);
 
-  filterFromDate = '';
-  filterToDate = '';
+  readonly filterFromDate = signal('');
+  readonly filterToDate = signal('');
+  readonly appliedFilter = signal<{ from: string; to: string }>({ from: '', to: '' });
+  readonly refreshNonce = signal(0);
 
-  private destroy$ = new Subject<void>();
-
-  constructor(private sensorService: SensorService) {}
-
-  ngOnInit(): void {
-    if (this.sensor) {
-      this.loadReadings();
-      this.startAutoRefresh();
+  readonly unit = computed(() => this.sensorService.getSensorUnit(this.sensor().type));
+  readonly latestReading = computed(() => this.readings()[0] ?? null);
+  readonly averageValue = computed(() => {
+    const data = this.readings();
+    if (data.length === 0) {
+      return 0;
     }
-  }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
+    const sum = data.reduce((acc, reading) => acc + reading.value, 0);
+    return Math.round((sum / data.length) * 100) / 100;
+  });
+  readonly maxValue = computed(() => {
+    const data = this.readings();
+    return data.length > 0 ? Math.max(...data.map(reading => reading.value)) : 0;
+  });
+  readonly minValue = computed(() => {
+    const data = this.readings();
+    return data.length > 0 ? Math.min(...data.map(reading => reading.value)) : 0;
+  });
+  readonly displayedReadings = computed(() => this.readings().slice(0, 20));
+  readonly trend = computed<'up' | 'down' | 'stable'>(() => {
+    const data = this.readings();
 
-  loadReadings(): void {
-    if (!this.sensor) return;
+    if (data.length < 2) {
+      return 'stable';
+    }
 
-    this.loading = true;
-    this.error = null;
+    if (data[0].value > data[1].value) {
+      return 'up';
+    }
 
-    this.sensorService.getReadingsBySensor(
-      this.sensor.id,
-      this.filterFromDate,
-      this.filterToDate
-    ).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe({
-      next: (data) => {
-        this.readings = data.sort((a, b) => 
-          new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-        );
-        this.filteredReadings = this.readings.slice(0, 20); // Últimas 20
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Error loading readings:', err);
-        this.error = 'Error al cargar las lecturas';
-        this.loading = false;
-      }
-    });
-  }
+    if (data[0].value < data[1].value) {
+      return 'down';
+    }
 
-  startAutoRefresh(): void {
-    if (this.autoRefresh && this.sensor) {
-      this.sensorService.getReadingsAutoRefresh(this.sensor.id)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (data) => {
-            this.readings = data.sort((a, b) => 
-              new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
-            );
-            this.filteredReadings = this.readings.slice(0, 20);
-          }
+    return 'stable';
+  });
+  readonly trendLabel = computed(() => {
+    const trend = this.trend();
+
+    if (trend === 'up') {
+      return 'Tendencia al alza';
+    }
+
+    if (trend === 'down') {
+      return 'Tendencia a la baja';
+    }
+
+    return 'Tendencia estable';
+  });
+
+  constructor() {
+    effect(
+      onCleanup => {
+        const selected = this.sensor();
+        const auto = this.autoRefresh();
+        const filter = this.appliedFilter();
+
+        // Trigger extra recarga manual al actualizar ahora.
+        this.refreshNonce();
+
+        this.pollSubscription?.unsubscribe();
+        this.loading.set(true);
+        this.error.set(null);
+
+        if (auto) {
+          this.pollSubscription = timer(0, 15000)
+            .pipe(
+              switchMap(() =>
+                this.sensorService.getReadingsBySensor(
+                  selected.id,
+                  filter.from || undefined,
+                  filter.to || undefined
+                )
+              )
+            )
+            .subscribe({
+              next: data => {
+                this.readings.set(this.sortReadings(data));
+                this.loading.set(false);
+              },
+              error: () => {
+                this.error.set('Error al cargar las lecturas del sensor.');
+                this.loading.set(false);
+              }
+            });
+        } else {
+          this.pollSubscription = this.sensorService
+            .getReadingsBySensor(selected.id, filter.from || undefined, filter.to || undefined)
+            .subscribe({
+              next: data => {
+                this.readings.set(this.sortReadings(data));
+                this.loading.set(false);
+              },
+              error: () => {
+                this.error.set('Error al cargar las lecturas del sensor.');
+                this.loading.set(false);
+              }
+            });
+        }
+
+        onCleanup(() => {
+          this.pollSubscription?.unsubscribe();
         });
-    }
+      },
+      { allowSignalWrites: true }
+    );
+  }
+
+  private sortReadings(data: Reading[]): Reading[] {
+    return [...data].sort(
+      (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
+  }
+
+  setFilterFromDate(value: string): void {
+    this.filterFromDate.set(value);
+  }
+
+  setFilterToDate(value: string): void {
+    this.filterToDate.set(value);
   }
 
   applyFilter(): void {
-    this.loadReadings();
+    this.appliedFilter.set({ from: this.filterFromDate(), to: this.filterToDate() });
   }
 
   clearFilter(): void {
-    this.filterFromDate = '';
-    this.filterToDate = '';
-    this.loadReadings();
+    this.filterFromDate.set('');
+    this.filterToDate.set('');
+    this.appliedFilter.set({ from: '', to: '' });
+  }
+
+  refreshNow(): void {
+    this.refreshNonce.update(value => value + 1);
   }
 
   toggleAutoRefresh(): void {
-    this.autoRefresh = !this.autoRefresh;
-    if (this.autoRefresh) {
-      this.startAutoRefresh();
-    }
-  }
-
-  getLatestReading(): Reading | undefined {
-    return this.readings[0];
-  }
-
-  getAverageValue(): number {
-    if (this.readings.length === 0) return 0;
-    const sum = this.readings.reduce((acc, r) => acc + r.value, 0);
-    return Math.round((sum / this.readings.length) * 100) / 100;
-  }
-
-  getMaxValue(): number {
-    if (this.readings.length === 0) return 0;
-    return Math.max(...this.readings.map(r => r.value));
-  }
-
-  getMinValue(): number {
-    if (this.readings.length === 0) return 0;
-    return Math.min(...this.readings.map(r => r.value));
+    this.autoRefresh.update(value => !value);
   }
 
   formatDate(dateString: string): string {
@@ -127,47 +173,36 @@ export class SensorDetailComponent implements OnInit, OnDestroy {
     return date.toLocaleString('es-ES');
   }
 
-  getUnidad(tipo: string): string {
-    const unidades: { [key: string]: string } = {
-      'temperatura': '°C',
-      'humedad': '%',
-      'presión': 'hPa',
-      'luz': 'lux'
-    };
-    return unidades[tipo.toLowerCase()] || '';
-  }
-
   exportarCSV(): void {
-    if (!this.sensor || this.readings.length === 0) {
-      alert('No hay datos para exportar');
+    if (this.readings().length === 0) {
+      window.alert('No hay datos para exportar.');
       return;
     }
 
-    // Crear el contenido CSV
     const headers = ['Fecha/Hora', 'Sensor', 'Ubicación', 'Tipo', 'Valor', 'Unidad'];
-    const unidad = this.getUnidad(this.sensor.type);
+    const sensor = this.sensor();
+    const unidad = this.unit();
     
     const csvContent = [
       headers.join(','),
-      ...this.readings.map(r => {
+      ...this.readings().map(r => {
         const fecha = new Date(r.timestamp).toLocaleString('es-ES');
         return [
           `"${fecha}"`,
-          `"${this.sensor.name}"`,
-          `"${this.sensor.location}"`,
-          `"${this.sensor.type}"`,
+          `"${sensor.name}"`,
+          `"${sensor.location}"`,
+          `"${sensor.type}"`,
           r.value,
           `"${unidad}"`
         ].join(',');
       })
     ].join('\n');
 
-    // Crear y descargar el archivo
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     
-    const nombreArchivo = `lecturas_${this.sensor.name.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.csv`;
+    const nombreArchivo = `lecturas_${sensor.name.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.csv`;
     
     link.setAttribute('href', url);
     link.setAttribute('download', nombreArchivo);
