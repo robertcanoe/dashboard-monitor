@@ -1,17 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable, computed, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, interval } from 'rxjs';
+import { Observable, interval } from 'rxjs';
 import { Sensor } from '../models/sensor';
 import { Reading } from '../models/reading';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SensorService {
-  private apiUrl = 'http://localhost:5024/api';
-  private selectedSensorSubject = new BehaviorSubject<Sensor | null>(null);
-  public selectedSensor$ = this.selectedSensorSubject.asObservable();
+  private readonly apiUrl = 'http://localhost:5024/api';
+
+  readonly selectedSensor = signal<Sensor | null>(null);
+  readonly selectedSensorId = computed(() => this.selectedSensor()?.id ?? null);
   
   constructor(private http: HttpClient) { }
 
@@ -39,14 +40,36 @@ export class SensorService {
   }
 
   selectSensor(sensor: Sensor): void {
-    this.selectedSensorSubject.next(sensor);
+    this.selectedSensor.set(sensor);
   }
 
-  getSelectedSensor(): Sensor | null {
-    return this.selectedSensorSubject.value;
+  getSensorIcon(type: string): string {
+    const icons: Record<string, string> = {
+      temperatura: 'T',
+      humedad: 'H',
+      presion: 'P',
+      presión: 'P',
+      luz: 'L',
+      movimiento: 'M'
+    };
+
+    return icons[type.toLowerCase()] ?? 'S';
   }
 
-  // Auto-refresh lecturas cada X segundos
+  getSensorUnit(type: string): string {
+    const units: Record<string, string> = {
+      temperatura: '°C',
+      humedad: '%',
+      presion: 'hPa',
+      presión: 'hPa',
+      luz: 'lux',
+      movimiento: 'eventos'
+    };
+
+    return units[type.toLowerCase()] ?? '';
+  }
+
+  // Auto-refresh de lecturas cada X segundos
   getReadingsAutoRefresh(sensorId: number, intervalMs: number = 15000): Observable<Reading[]> {
     return interval(intervalMs).pipe(
       switchMap(() => this.getReadingsBySensor(sensorId))
