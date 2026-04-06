@@ -1,44 +1,57 @@
-<div class="sensor-list">
-  <h2>Sensores Activos ({{ sensors.length }})</h2>
+<section class="sensor-list">
+  <header class="list-header">
+    <p class="kicker">INVENTARIO</p>
+    <h2>Sensores disponibles</h2>
+    <p class="description">Selecciona uno para analizar su historico y metricas operativas.</p>
 
-  @if (loading) {
-    <div class="loading">
-      <p>Cargando información de sensores...</p>
+    <div class="summary-grid">
+      <article>
+        <small>Total</small>
+        <strong>{{ sensorsCount() }}</strong>
+      </article>
+      <article>
+        <small>Tipos</small>
+        <strong>{{ typeCount() }}</strong>
+      </article>
+      <article>
+        <small>Activo</small>
+        <strong>{{ highlightedSensorName() }}</strong>
+      </article>
     </div>
-  }
+  </header>
 
-  @if (error) {
-    <div class="error-message">
-      <p>{{ error }}</p>
-      <button (click)="loadSensors()" class="retry-btn">Reintentar Conexión</button>
+  @if (loading()) {
+    <div class="state-block loading">
+      <span class="loader"></span>
+      <p>Cargando sensores...</p>
     </div>
-  }
-
-  @if (!loading && sensors.length === 0) {
-    <div class="no-sensors">
-      <p>No se encontraron sensores activos.</p>
-      <p>Por favor, verifique la conexión o agregue nuevos sensores.</p>
+  } @else if (error()) {
+    <div class="state-block error-message">
+      <p>{{ error() }}</p>
+      <button (click)="loadSensors()" class="retry-btn">Reintentar</button>
     </div>
-  }
-
-  @if (!loading && sensors.length > 0) {
+  } @else if (sensorsCount() === 0) {
+    <div class="state-block no-sensors">
+      <p>No hay sensores registrados en este momento.</p>
+    </div>
+  } @else {
     <ul class="sensors">
-      @for (sensor of sensors; track sensor.id) {
+      @for (sensor of sensors(); track sensor.id) {
         <li
-          [class.active]="selectedSensorId === sensor.id"
-          (click)="selectSensor(sensor)"
           class="sensor-item"
+          [class.active]="selectedSensorId() === sensor.id"
+          (click)="selectSensor(sensor)"
         >
-          <div class="sensor-header">
-            <div class="sensor-icon">{{ getIconBySensorType(sensor.type) }}</div>
-            <div class="sensor-info">
+          <div class="sensor-top">
+            <span class="sensor-icon">{{ getIconBySensorType(sensor.type) }}</span>
+            <div>
               <h3>{{ sensor.name }}</h3>
-              <p class="sensor-type">{{ sensor.type }}</p>
+              <p>{{ sensor.type }}</p>
             </div>
           </div>
-          <p class="sensor-location">{{ sensor.location }}</p>
+          <small>{{ sensor.location }}</small>
         </li>
       }
     </ul>
   }
-</div>
+</section>
