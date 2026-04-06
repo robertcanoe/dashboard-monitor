@@ -1,6 +1,6 @@
 # Frontend - Sistema de Monitorización de Sensores
 
-## 📁 Descripción
+## Descripción
 
 Este directorio contiene el **frontend** del sistema de monitorización de sensores, desarrollado con **Angular 21** y **TypeScript**.
 
@@ -8,18 +8,19 @@ El frontend proporciona una interfaz web corporativa para visualizar sensores, s
 
 ---
 
-## 🏗️ Tecnologías
+## Tecnologías
 
 - **Angular 21** - Framework frontend
 - **TypeScript** - Lenguaje de programación
-- **RxJS** - Programación reactiva
-- **FormsModule** - Manejo de formularios
+- **Signals (Angular)** - Estado reactivo local y derivado
+- **Control Flow Blocks** - `@if`, `@else`, `@for`
+- **RxJS** - Polling y peticiones HTTP
 - **Standalone Components** - Arquitectura moderna de Angular
 - **PNPM** - Gestor de paquetes
 
 ---
 
-## 🚀 Inicialización del Proyecto
+## Inicialización del Proyecto
 
 El proyecto fue creado con los siguientes comandos:
 
@@ -39,19 +40,19 @@ pnpm start
 
 ---
 
-## 📋 Funcionalidades del Frontend
+## Funcionalidades del Frontend
 
 ### Componentes Principales:
 
 #### **Dashboard Component**
 - Vista principal del sistema
-- Header corporativo con título y subtítulo
-- Layout en grid (lista de sensores + detalles)
+- Header operativo con estado de selección y fecha
+- Layout en grid responsive (inventario + analítica)
 
 #### **Sensor List Component**
 - Lista todos los sensores disponibles
-- Muestra estado activo/inactivo
-- Iconos dinámicos por tipo de sensor
+- Estado activo con resumen de inventario
+- Indicadores visuales por tipo de sensor
 - Selección de sensor para ver detalles
 
 #### **Sensor Detail Component**
@@ -61,10 +62,11 @@ pnpm start
   - Promedio
   - Máximo
   - Mínimo
+- Tendencia (al alza, a la baja, estable)
 - **Filtros de búsqueda** por rango de fechas
 - **Historial de lecturas** en tabla
 - **Exportación a CSV** de todas las lecturas
-- **Auto-actualización** cada 15 segundos
+- **Auto-actualización** cada 15 segundos (modo manual opcional)
 
 ### Servicios:
 
@@ -75,31 +77,24 @@ pnpm start
   - `getSensorById(id)` - Obtiene un sensor específico
   - `getReadingsBySensor(sensorId, desde?, hasta?)` - Obtiene lecturas filtradas
   - `createReading()` - Crea una nueva lectura
-- Auto-refresh configurable
-- Manejo de estado con BehaviorSubject
+- Estado seleccionado con `signal` y `computed`
+- Helpers de dominio para icono/unidad por tipo de sensor
 
 ---
 
-## 🎨 Diseño Corporativo
+## Diseño Corporativo
 
-El frontend utiliza una paleta de colores profesional:
+La interfaz actual usa un sistema visual profesional orientado a panel de control:
 
-- **Azul Corporativo:** `#003d82` (Indra-style)
-- **Azul Secundario:** `#0056b3`
-- **Gris Claro:** `#f5f7fa`
-- **Textos:** `#2c3e50`
-
-Características del diseño:
-- ✅ Responsive (mobile-first)
-- ✅ Tipografía Roboto
-- ✅ Bordes sutiles
-- ✅ Sombras profesionales
-- ✅ Sin animaciones excesivas
-- ✅ Accesibilidad mejorada
+- Tipografía combinada: **Manrope** + **Space Grotesk**
+- Sistema de superficies translúcidas con jerarquía clara
+- Fondo con capas de gradientes y acentos suaves
+- Microanimaciones funcionales (entrada y carga)
+- Layout responsive para escritorio y móvil
 
 ---
 
-## ⚙️ Configuración
+## Configuración
 
 ### Conexión al Backend
 El frontend se conecta al backend en: **http://localhost:5024**
@@ -107,7 +102,7 @@ El frontend se conecta al backend en: **http://localhost:5024**
 Configurado en: `src/app/services/sensor.service.ts`
 
 ```typescript
-private apiUrl = 'http://localhost:5024/api';
+private readonly apiUrl = 'http://localhost:5024/api';
 ```
 
 ### Puerto de Desarrollo
@@ -115,7 +110,7 @@ El servidor de desarrollo se ejecuta en: **http://localhost:4200**
 
 ---
 
-## 🔧 Comandos Útiles
+## Comandos Útiles
 
 ```bash
 # Instalar dependencias
@@ -145,7 +140,7 @@ npx prettier --write .
 
 ---
 
-## 🗂️ Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 dashboard-monitor/
@@ -173,13 +168,13 @@ dashboard-monitor/
 
 ---
 
-## 📊 Características Destacadas
+## Características Destacadas
 
 ### 1. **Auto-actualización**
-Los datos se actualizan automáticamente cada 15 segundos cuando un sensor está seleccionado.
+Los datos se actualizan automáticamente cada 15 segundos cuando un sensor está seleccionado. También puedes alternar a modo manual.
 
 ### 2. **Exportación a CSV**
-Botón "📥 Exportar CSV" que genera un archivo con:
+Botón "Exportar CSV" que genera un archivo con:
 - Fecha/Hora
 - Nombre del sensor
 - Ubicación
@@ -197,10 +192,11 @@ Permite filtrar lecturas por:
 - Loading states con spinners
 - Error states con mensajes claros
 - Empty states informativos
+- Métrica de tendencia basada en últimas lecturas
 
 ---
 
-## 🔒 Variables de Entorno
+## Variables de Entorno
 
 Para configurar el backend en producción, actualiza la URL en:
 
@@ -212,7 +208,7 @@ private apiUrl = environment.apiUrl; // Usar environment
 
 ---
 
-## 🐛 Solución de Problemas
+## Solución de Problemas
 
 ### Los sensores no se muestran
 1. Verifica que el backend esté corriendo en http://localhost:5024
@@ -225,12 +221,12 @@ Verifica que el backend permita el origen http://localhost:4200 en su configurac
 
 ### Dependencias no instaladas
 ```bash
-rm -rf node_modules
+Remove-Item -Recurse -Force node_modules
 pnpm install
 ```
 ---
 
-## 📖 Recursos
+## Recursos
 
 - [Angular Documentation](https://angular.dev)
 - [RxJS Documentation](https://rxjs.dev)
