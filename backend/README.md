@@ -1,6 +1,6 @@
 # Backend - Sistema de Monitorización de Sensores
 
-## 📁 Descripción
+## Descripción
 
 Este directorio contiene el **backend** del sistema de monitorización de sensores, desarrollado con **.NET 8** y **C#**.
 
@@ -8,7 +8,7 @@ El backend proporciona una **API REST** que permite gestionar sensores y sus lec
 
 ---
 
-## 🏗️ Tecnologías
+## Tecnologías
 
 - **.NET 8** - Framework principal
 - **ASP.NET Core Web API** - Para crear la API REST
@@ -17,7 +17,7 @@ El backend proporciona una **API REST** que permite gestionar sensores y sus lec
 
 ---
 
-## 🚀 Inicialización del Proyecto
+## Inicialización del Proyecto
 
 El proyecto fue creado con los siguientes comandos:
 
@@ -34,7 +34,7 @@ dotnet run
 
 ---
 
-## 📋 Funcionalidades del Backend
+## Funcionalidades del Backend
 
 ### Endpoints Disponibles:
 
@@ -70,7 +70,7 @@ dotnet run
 
 ---
 
-## ⚙️ Configuración
+## Configuración
 
 ### CORS
 El backend está configurado para aceptar peticiones desde:
@@ -82,7 +82,7 @@ El servidor se ejecuta en: **http://localhost:5024**
 
 ---
 
-## 🔧 Comandos Útiles
+## Comandos Útiles
 
 ```bash
 # Restaurar dependencias
@@ -103,7 +103,7 @@ dotnet clean
 
 ---
 
-## 📊 Swagger/OpenAPI
+## Swagger/OpenAPI
 
 Una vez ejecutado el proyecto, puedes acceder a la documentación interactiva de la API en:
 
@@ -116,7 +116,7 @@ Desde Swagger puedes:
 
 ---
 
-## 🗂️ Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 DashboardAPI/
@@ -129,7 +129,7 @@ DashboardAPI/
 
 ---
 
-## 📝 Datos de Ejemplo
+## Datos de Ejemplo
 
 El backend incluye datos simulados en memoria con:
 - **4 sensores** (temperatura, humedad, presión, luz)
@@ -139,7 +139,7 @@ Estos datos son solo para desarrollo y se pierden al reiniciar el servidor.
 
 ---
 
-## 🔒 Seguridad
+## Seguridad
 
 - **CORS** configurado para dominios específicos
 - **HTTPS Redirect** deshabilitado en desarrollo para facilitar las pruebas
@@ -147,7 +147,7 @@ Estos datos son solo para desarrollo y se pierden al reiniciar el servidor.
 
 ---
 
-## 🐛 Solución de Problemas
+## Solución de Problemas
 
 ### Puerto en uso
 Si el puerto 5024 está ocupado:
