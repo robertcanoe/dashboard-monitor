@@ -1,68 +1,55 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { SensorService } from '../../services/sensor.service';
 import { Sensor } from '../../models/sensor';
 
 @Component({
   selector: 'app-sensor-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './sensor-list.component.html',
   styleUrl: './sensor-list.component.css'
 })
 export class SensorListComponent implements OnInit {
-  sensors: Sensor[] = [];
-  selectedSensorId: number | null = null;
-  loading = false;
-  error: string | null = null;
+  private readonly sensorService = inject(SensorService);
 
-  constructor(private sensorService: SensorService) {}
+  readonly sensors = signal<Sensor[]>([]);
+  readonly loading = signal(false);
+  readonly error = signal<string | null>(null);
+  readonly selectedSensorId = this.sensorService.selectedSensorId;
+
+  readonly sensorsCount = computed(() => this.sensors().length);
+  readonly typeCount = computed(() => {
+    const types = new Set(this.sensors().map(sensor => sensor.type.toLowerCase()));
+    return types.size;
+  });
+
+  readonly highlightedSensorName = computed(() => this.sensorService.selectedSensor()?.name ?? 'Ninguno');
 
   ngOnInit(): void {
     this.loadSensors();
   }
 
   loadSensors(): void {
-    console.log('Cargando sensores desde:', this.sensorService);
-    this.loading = true;
-    this.error = null;
+    this.loading.set(true);
+    this.error.set(null);
+
     this.sensorService.getSensors().subscribe({
-      next: (data) => {
-        console.log('Sensores recibidos:', data);
-        console.log('Tipo de datos:', Array.isArray(data), data.length);
-        this.sensors = data;
-        this.loading = false;
-        console.log('Loading después de cargar:', this.loading);
-        console.log('Sensores en componente:', this.sensors.length);
-        
-        // Forzar detección de cambios
-        setTimeout(() => {
-          console.log('Estado final - sensors:', this.sensors.length, 'loading:', this.loading);
-        }, 100);
+      next: data => {
+        this.sensors.set(data);
+        this.loading.set(false);
       },
-      error: (err) => {
-        console.error('Error loading sensors:', err);
-        console.error('URL:', 'http://localhost:5024/api/sensores');
-        this.error = 'Error al cargar los sensores. Verifica que el backend está en http://localhost:5024';
-        this.loading = false;
+      error: () => {
+        this.error.set('No fue posible cargar sensores. Comprueba que el backend esta en http://localhost:5024');
+        this.loading.set(false);
       }
     });
   }
 
   selectSensor(sensor: Sensor): void {
-    this.selectedSensorId = sensor.id;
     this.sensorService.selectSensor(sensor);
   }
 
   getIconBySensorType(type: string): string {
-    const icons: { [key: string]: string } = {
-      'temperatura': '🌡️',
-      'humedad': '💧',
-      'presión': '📊',
-      'luz': '💡',
-      'movimiento': '🔔',
-      'default': '📡'
-    };
-    return icons[type.toLowerCase()] || icons['default'];
+    return this.sensorService.getSensorIcon(type);
   }
 }
