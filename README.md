@@ -1,4 +1,4 @@
-# 📊 Sistema de Monitorización de Sensores
+# Sistema de Monitorización de Sensores
 
 Sistema completo de monitorización de sensores en tiempo real con **backend en .NET 8** y **frontend en Angular 21**.
 
@@ -99,7 +99,8 @@ El frontend estará disponible en: **http://localhost:4200**
 ### Frontend
 - **Angular 21** - Framework frontend
 - **TypeScript** - Lenguaje de programación
-- **RxJS** - Programación reactiva
+- **Signals + Control Flow Blocks** - Estado y templates modernos
+- **RxJS** - Polling de lecturas
 - **Standalone Components** - Arquitectura moderna
 - **PNPM** - Gestor de paquetes
 
@@ -128,13 +129,12 @@ El frontend estará disponible en: **http://localhost:4200**
 
 ## Diseño Corporativo
 
-El frontend utiliza un **diseño corporativo profesional** inspirado en empresas tecnológicas como Indra:
+El frontend utiliza un **diseño corporativo profesional** con estilo de panel operativo:
 
-- **Paleta de colores:** Azul corporativo (#003d82) y grises
-- **Tipografía:** Roboto (profesional y legible)
-- **Layout:** Grid responsivo
-- **Componentes:** Cards con bordes sutiles y sombras
-- **Estilo:** Minimalista, sin animaciones excesivas
+- **Tipografía:** Manrope + Space Grotesk
+- **Visual:** superficies limpias, gradientes suaves y jerarquía clara
+- **Layout:** grid responsive para escritorio y móvil
+- **UX:** estados de carga/error/empty y acciones directas (filtro, refresco, exportación)
 
 ---
 
