@@ -1,115 +1,136 @@
-<div class="sensor-detail" *ngIf="sensor">
-  <div class="detail-header">
-    <h2>{{ sensor.name }}</h2>
+<section class="sensor-detail">
+  <header class="detail-header">
+    <div class="detail-title">
+      <p class="kicker">{{ sensor().type }}</p>
+      <h2>{{ sensor().name }}</h2>
+      <p class="location">{{ sensor().location }}</p>
+    </div>
+
     <div class="header-actions">
-      <button 
-        (click)="exportarCSV()" 
-        class="export-btn"
-        title="Exportar datos a CSV"
+      <button type="button" class="btn ghost" (click)="refreshNow()">Actualizar ahora</button>
+      <button
+        type="button"
+        class="btn tone"
+        [class.active]="autoRefresh()"
+        (click)="toggleAutoRefresh()"
       >
-        📥 Exportar CSV
+        @if (autoRefresh()) { Auto cada 15s } @else { Modo manual }
       </button>
-      <button 
-        (click)="toggleAutoRefresh()" 
-        [class.active]="autoRefresh"
-        class="refresh-btn"
-        [title]="autoRefresh ? 'Actualización automática activa' : 'Actualización automática inactiva'"
-      >
-        🔄
-      </button>
+      <button type="button" class="btn solid" (click)="exportarCSV()">Exportar CSV</button>
     </div>
-  </div>
+  </header>
 
-  <div class="sensor-metadata">
-    <div class="metadata-item">
-      <label>Tipo:</label>
-      <span class="badge">{{ sensor.type }}</span>
+  @if (error()) {
+    <div class="error-message">
+      <p>{{ error() }}</p>
     </div>
-    <div class="metadata-item">
-      <label>Ubicación:</label>
-      <span>📍 {{ sensor.location }}</span>
-    </div>
-  </div>
+  }
 
-  <div *ngIf="error" class="error-message">
-    <p>⚠️ {{ error }}</p>
-  </div>
+  <section class="stats-grid">
+    <article class="stat-card latest">
+      <small>Ultima lectura</small>
 
-  <div class="stats-grid">
-    <div class="stat-card">
-      <h3>Última lectura</h3>
-      <p class="stat-value" *ngIf="getLatestReading(); else noData">
-        {{ getLatestReading()!.value }}
-      </p>
-      <p class="stat-time" *ngIf="getLatestReading()">
-        {{ formatDate(getLatestReading()!.timestamp) }}
-      </p>
-      <ng-template #noData>
-        <p class="stat-value">—</p>
-      </ng-template>
-    </div>
+      @if (latestReading(); as latest) {
+        <strong>{{ latest.value }} {{ unit() }}</strong>
+        <span>{{ formatDate(latest.timestamp) }}</span>
+      } @else {
+        <strong>--</strong>
+        <span>Sin datos</span>
+      }
+    </article>
 
-    <div class="stat-card">
-      <h3>Promedio</h3>
-      <p class="stat-value">{{ getAverageValue() }}</p>
-    </div>
+    <article class="stat-card">
+      <small>Promedio</small>
+      <strong>{{ averageValue() }} {{ unit() }}</strong>
+      <span>Base: {{ readings().length }} muestras</span>
+    </article>
 
-    <div class="stat-card">
-      <h3>Máximo</h3>
-      <p class="stat-value">{{ getMaxValue() }}</p>
-    </div>
+    <article class="stat-card">
+      <small>Rango</small>
+      <strong>{{ minValue() }} - {{ maxValue() }}</strong>
+      <span>{{ unit() }}</span>
+    </article>
 
-    <div class="stat-card">
-      <h3>Mínimo</h3>
-      <p class="stat-value">{{ getMinValue() }}</p>
-    </div>
-  </div>
+    <article class="stat-card" [class.up]="trend() === 'up'" [class.down]="trend() === 'down'">
+      <small>Tendencia</small>
+      <strong>{{ trendLabel() }}</strong>
+      <span>
+        @if (trend() === 'up') {
+          Ultima medicion superior a la anterior
+        } @else if (trend() === 'down') {
+          Ultima medicion inferior a la anterior
+        } @else {
+          Variacion estable
+        }
+      </span>
+    </article>
+  </section>
 
-  <div class="filter-section">
-    <h3>📅 Filtrar lecturas</h3>
+  <section class="filter-section">
+    <h3>Filtro temporal</h3>
     <div class="filter-controls">
-      <div class="filter-group">
-        <label>Desde:</label>
-        <input type="datetime-local" [(ngModel)]="filterFromDate" />
+      <label>
+        Desde
+        <input
+          type="datetime-local"
+          [value]="filterFromDate()"
+          (input)="setFilterFromDate($any($event.target).value)"
+        />
+      </label>
+
+      <label>
+        Hasta
+        <input
+          type="datetime-local"
+          [value]="filterToDate()"
+          (input)="setFilterToDate($any($event.target).value)"
+        />
+      </label>
+
+      <button type="button" class="btn tone" (click)="applyFilter()">Aplicar filtro</button>
+      <button type="button" class="btn ghost" (click)="clearFilter()">Limpiar</button>
+    </div>
+  </section>
+
+  <section class="readings-section">
+    <h3>Historico reciente</h3>
+
+    @if (loading()) {
+      <div class="state loading">
+        <span class="loader"></span>
+        <p>Cargando lecturas...</p>
       </div>
-      <div class="filter-group">
-        <label>Hasta:</label>
-        <input type="datetime-local" [(ngModel)]="filterToDate" />
+    } @else if (readings().length === 0) {
+      <div class="state empty">
+        <p>No hay lecturas para el filtro seleccionado.</p>
       </div>
-      <button (click)="applyFilter()" class="btn btn-primary">Aplicar</button>
-      <button (click)="clearFilter()" class="btn btn-secondary">Limpiar</button>
-    </div>
-  </div>
+    } @else {
+      <div class="table-shell">
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha y hora</th>
+              <th>Valor</th>
+              <th>Unidad</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (reading of displayedReadings(); track reading.id) {
+              <tr>
+                <td>{{ formatDate(reading.timestamp) }}</td>
+                <td class="value">{{ reading.value }}</td>
+                <td>{{ unit() }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
 
-  <div class="readings-section">
-    <h3>📊 Últimas Lecturas</h3>
-    
-    <div *ngIf="loading" class="loading">
-      <p>Cargando lecturas...</p>
-    </div>
-
-    <div *ngIf="!loading && readings.length === 0" class="no-readings">
-      <p>No hay lecturas disponibles</p>
-    </div>
-
-    <div *ngIf="!loading && readings.length > 0" class="readings-list">
-      <table>
-        <thead>
-          <tr>
-            <th>Fecha y Hora</th>
-            <th>Valor</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let reading of filteredReadings">
-            <td>{{ formatDate(reading.timestamp) }}</td>
-            <td class="value">{{ reading.value }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <p class="reading-count" *ngIf="readings.length > 20">
-        Mostrando 20 de {{ readings.length }} lecturas
-      </p>
-    </div>
-  </div>
-</div>
+      @if (readings().length > displayedReadings().length) {
+        <p class="reading-count">
+          Mostrando {{ displayedReadings().length }} de {{ readings().length }} lecturas
+        </p>
+      }
+    }
+  </section>
+</section>
