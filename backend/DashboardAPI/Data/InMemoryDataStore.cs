@@ -21,26 +21,27 @@ public class InMemoryDataStore
             new Sensor { Id = 4, Name = "Sensor Luz Entrada", Location = "Recepcion", Type = "luz" }
         };
 
-        Lecturas = new ConcurrentBag<Reading>
-        {
-            new Reading { Id = 1, SensorId = 1, Value = 22.5, Timestamp = DateTime.Now.AddMinutes(-30) },
-            new Reading { Id = 2, SensorId = 1, Value = 23.1, Timestamp = DateTime.Now.AddMinutes(-25) },
-            new Reading { Id = 3, SensorId = 1, Value = 22.8, Timestamp = DateTime.Now.AddMinutes(-20) },
-            new Reading { Id = 4, SensorId = 1, Value = 23.5, Timestamp = DateTime.Now.AddMinutes(-15) },
-            new Reading { Id = 5, SensorId = 1, Value = 24.0, Timestamp = DateTime.Now.AddMinutes(-10) },
-            new Reading { Id = 6, SensorId = 1, Value = 23.7, Timestamp = DateTime.Now.AddMinutes(-5) },
-            new Reading { Id = 7, SensorId = 1, Value = 24.2, Timestamp = DateTime.Now },
-            new Reading { Id = 8, SensorId = 2, Value = 65.0, Timestamp = DateTime.Now.AddMinutes(-30) },
-            new Reading { Id = 9, SensorId = 2, Value = 67.5, Timestamp = DateTime.Now.AddMinutes(-20) },
-            new Reading { Id = 10, SensorId = 2, Value = 66.2, Timestamp = DateTime.Now.AddMinutes(-10) },
-            new Reading { Id = 11, SensorId = 2, Value = 68.0, Timestamp = DateTime.Now },
-            new Reading { Id = 12, SensorId = 3, Value = 1013.2, Timestamp = DateTime.Now.AddMinutes(-25) },
-            new Reading { Id = 13, SensorId = 3, Value = 1012.8, Timestamp = DateTime.Now.AddMinutes(-15) },
-            new Reading { Id = 14, SensorId = 3, Value = 1013.5, Timestamp = DateTime.Now.AddMinutes(-5) },
-            new Reading { Id = 15, SensorId = 4, Value = 450.0, Timestamp = DateTime.Now.AddMinutes(-20) },
-            new Reading { Id = 16, SensorId = 4, Value = 520.0, Timestamp = DateTime.Now.AddMinutes(-10) },
-            new Reading { Id = 17, SensorId = 4, Value = 480.0, Timestamp = DateTime.Now }
-        };
+
+        Lecturas =
+            [
+                 new() { Id = 1,  SensorId = 1, Value = 22.5,   Timestamp = DateTime.Now.AddMinutes(-30) },
+                new() { Id = 2,  SensorId = 1, Value = 23.1,   Timestamp = DateTime.Now.AddMinutes(-25) },
+                new() { Id = 3,  SensorId = 1, Value = 22.8,   Timestamp = DateTime.Now.AddMinutes(-20) },
+                new() { Id = 4,  SensorId = 1, Value = 23.5,   Timestamp = DateTime.Now.AddMinutes(-15) },
+                new() { Id = 5,  SensorId = 1, Value = 24.0,   Timestamp = DateTime.Now.AddMinutes(-10) },
+                new() { Id = 6,  SensorId = 1, Value = 23.7,   Timestamp = DateTime.Now.AddMinutes(-5)  },
+                new() { Id = 7,  SensorId = 1, Value = 24.2,   Timestamp = DateTime.Now                 },
+                new() { Id = 8,  SensorId = 2, Value = 65.0,   Timestamp = DateTime.Now.AddMinutes(-30) },
+                new() { Id = 9,  SensorId = 2, Value = 67.5,   Timestamp = DateTime.Now.AddMinutes(-20) },
+                new() { Id = 10, SensorId = 2, Value = 66.2,   Timestamp = DateTime.Now.AddMinutes(-10) },
+                new() { Id = 11, SensorId = 2, Value = 68.0,   Timestamp = DateTime.Now                 },
+                new() { Id = 12, SensorId = 3, Value = 1013.2, Timestamp = DateTime.Now.AddMinutes(-25) },
+                new() { Id = 13, SensorId = 3, Value = 1012.8, Timestamp = DateTime.Now.AddMinutes(-15) },
+                new() { Id = 14, SensorId = 3, Value = 1013.5, Timestamp = DateTime.Now.AddMinutes(-5)  },
+                new() { Id = 15, SensorId = 4, Value = 450.0,  Timestamp = DateTime.Now.AddMinutes(-20) },
+                new() { Id = 16, SensorId = 4, Value = 520.0,  Timestamp = DateTime.Now.AddMinutes(-10) },
+                new() { Id = 17, SensorId = 4, Value = 480.0,  Timestamp = DateTime.Now                 }
+            ];
 
         _nextReadingId = Lecturas.Max(l => l.Id);
     }
