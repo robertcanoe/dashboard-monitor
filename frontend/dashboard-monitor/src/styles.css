@@ -1,4 +1,5 @@
-/* Reset y estilos globales */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -7,28 +8,37 @@
 
 html, body {
   height: 100%;
-  margin: 0;
-  padding: 0;
-  font-family: 'Roboto', 'Arial', sans-serif;
-  background: #f5f7fa;
-  color: #2c3e50;
 }
 
 body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Manrope', sans-serif;
+  color: var(--text-primary);
+  background:
+    radial-gradient(circle at 7% 9%, rgba(58, 198, 169, 0.2), transparent 36%),
+    radial-gradient(circle at 96% 94%, rgba(236, 125, 79, 0.15), transparent 32%),
+    linear-gradient(170deg, #f0f6fb 0%, #f6fbf7 52%, #fef9f6 100%);
   overflow-x: hidden;
 }
 
 :root {
-  --primary-blue: #003d82;
-  --secondary-blue: #0056b3;
-  --accent-blue: #1e88e5;
-  --light-gray: #f5f7fa;
-  --medium-gray: #e0e6ed;
-  --dark-gray: #5a6c7d;
-  --text-dark: #2c3e50;
-  --border-color: #dce4ec;
-  --success: #28a745;
-  --warning: #ffc107;
-  --danger: #dc3545;
+  --text-primary: #1a3349;
+  --text-secondary: #50687e;
+  --text-muted: #70879b;
+  --surface: rgba(255, 255, 255, 0.82);
+  --surface-border: rgba(39, 77, 111, 0.16);
+  --surface-shadow: 0 18px 36px rgba(27, 66, 101, 0.12);
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+button,
+input {
+  font-family: inherit;
 }
 
