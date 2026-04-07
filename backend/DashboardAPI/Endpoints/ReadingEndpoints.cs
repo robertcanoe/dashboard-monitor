@@ -25,8 +25,7 @@ public static class ReadingEndpoints
 
                 return Results.Ok(query.OrderByDescending(l => l.Timestamp).ToList());
             })
-            .WithName("GetLecturas")
-            .WithOpenApi();
+            .WithName("GetLecturas");
 
         group.MapPost(string.Empty, (ReadingCreate reading, InMemoryDataStore dataStore) =>
             {
@@ -43,8 +42,7 @@ public static class ReadingEndpoints
                 var newReading = dataStore.AddReading(reading);
                 return Results.Created($"/api/lecturas/{newReading.Id}", newReading);
             })
-            .WithName("CreateLectura")
-            .WithOpenApi();
+            .WithName("CreateLectura");
 
         return app;
     }
